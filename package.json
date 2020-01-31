@@ -1,33 +1,16 @@
 {
   "name": "glitchy-fluffy-barnacle",
-  "version": "1.0.0",
-  "description": "A Glitch application built on Node.js using Express connecting to DataStax Apollo",
-  "main": "server.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Adron/glitchy-fluffy-barnacle.git"
-  },
-  "keywords": [
-    "glitch",
-    "nodejs",
-    "example",
-    "datastax",
-    "datastax",
-    "apollo",
-    "javascript",
-    "database",
-    "remix"
-  ],
-  "author": "Adron Hall",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/Adron/glitchy-fluffy-barnacle/issues"
-  },
-  "homepage": "https://github.com/Adron/glitchy-fluffy-barnacle#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1"
   }
 }
