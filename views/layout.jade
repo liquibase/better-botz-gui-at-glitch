@@ -9,7 +9,7 @@ html
 doctype html
 html(lang='en')
   head
-    title Better Botz Nous
+    title= title
     meta(name='description', content='A cool thing made with Glitch')
     link#favicon(rel='icon', href='https://glitch.com/edit/favicon-app.ico', type='image/x-icon')
     meta(charset='utf-8')
@@ -19,16 +19,19 @@ html(lang='en')
     script(src='/client.js', defer='')
   body
     header
-      h1
-        | Better Botz Nous
+      h1= title
     
     main
       p
-        | Welcome to the Better Botz Nous site to help you determine what you need for your Better Botz workforce!
+        | Welcome to the #{title} site to help you determine what you need for your Better Botz workforce!
     
     footer
       | Made with 
       a(href='https://glitch.com') Glitch
       | ! 
       a(href='https://apollo.datastax.com/') Powered by DataStax Apollo
-      | .
+      | . Lots of HTML turned into Jade with 
+      a(href='https://html2jade.org/') html2jade
+      | . Built by all the robots at 
+      a(href='https://twitter.com/betterbotz/') Better Botz
+      | !
