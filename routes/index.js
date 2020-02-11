@@ -16,8 +16,24 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Better Botz Nous, Welcome' + process.env.USERNAME });
 });
 
+router.get('/cluster', function(req, res){
+  getClusterDetails().then(function(data){
+    res.send(data);
+  }).catch(function(filteredData){
+    res.send(filteredData);
+  })
+});
+
 router.get('/data', function (req, res) {
   getData().then(function(data){
+    res.send(data);
+  }).catch(function(filteredData){
+    res.send(filteredData);
+  })
+});
+
+router.get('/moredata', function (req, res) {
+  getMoreData().then(function(data){
     res.send(data);
   }).catch(function(filteredData){
     res.send(filteredData);
@@ -32,29 +48,38 @@ router.get('/metadata', function(req, res){
   })
 });
 
-async function getData() {
+async function getClusterDetails() {
   await client.connect();
-  const rs = await client.execute('SELECT * FROM system.local');
-  await client.shutdown();
-  return rs.first()['cluster_name'];
+  let result = `Connected to ${client.hosts.length} nodes in the cluster: ${client.hosts.keys().join(', ')}`;
+  return result;
 }
 
-async function getSampleRows() {
+async function getData() {
+  await client.connect();
+  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
 
+  const row = result.first();
+  console.log(row['customer_name']);
+
+  return row;
+}
+
+async function getMoreData(){
+  await client.connect();
+  const query = 'SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders';
+  client.execute(query, [name], { prepare: true })
+      .then(function (result) {
+        result.rows.forEach(function (row) {
+          console.log('%s to %s: %s', row.currencies.get(0), row.currencies.get(1), row.value);
+        });
+        return result.rows;
+      });
 }
 
 async function getMetadata() {
-  var result = "";
-  client.metadata.getTable('system', 'local')
-      .then(function (tableInfo) {
-        result += 'Table ' + tableInfo.name;
-        tableInfo.columns.forEach(function (column) {
-          result += 'Column ' + column.name + ' with type ' + column.type;
-        });
-      }).catch(function (filteredData) {
-      result = filteredData;
-  });
-  return "Data: " + result;
+  await client.connect();
+  const rs = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders WHERE customer_name= ? ;', ['Rachel Pollard']);
+  return rs.first()['prod_name'];
 }
 
 module.exports = router;
