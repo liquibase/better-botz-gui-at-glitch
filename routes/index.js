@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const path = './.data/secure-connect.zip';
 const { Client } = require('cassandra-driver');
 const client = new Client({
@@ -12,8 +11,12 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Better Botz Nous, Welcome' + process.env.USERNAME });
+router.get('/', function(req, res) {
+  res.render('index', { title: 'Better Botz Nous, Welcome!', name: process.env.USERNAME });
+});
+
+router.get('/datagrid', function(req, res){
+  res.render('datagrid', {});
 });
 
 router.get('/cluster', function(req, res){
