@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/datagrid', function(req, res){
-  res.render('datagrid', {});
+  res.render('datagrid', [{}]);
 });
 
 router.get('/cluster', function(req, res){
