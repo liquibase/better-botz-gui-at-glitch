@@ -107,3 +107,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Secure Connection bundles from DataStax
+*secure-connect*.zip
