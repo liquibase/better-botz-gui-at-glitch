@@ -1,11 +1,7 @@
 'use strict';
 
-const path = './.data/secure-connect.zip';
-const { Client } = require('cassandra-driver');
-const client = new Client({
-  cloud: { secureConnectBundle: path },
-  credentials: { username: process.env.USERNAME, password: process.env.PASSWORD }
-});
+const connection = require('../connection')
+
 
 var express = require('express');
 var router = express.Router();
@@ -35,6 +31,15 @@ router.get('/data', function (req, res) {
   })
 });
 
+
+router.get('/test', function (req, res) {
+  getClusterName().then(function(data){
+    res.send(data);
+  }).catch(function(filteredData){
+    res.send(filteredData);
+  })
+});
+
 router.get('/moredata', function (req, res) {
   getMoreData().then(function(data){
     res.send(data);
@@ -52,14 +57,12 @@ router.get('/metadata', function(req, res){
 });
 
 async function getClusterDetails() {
-  await client.connect();
-  let result = `Connected to ${client.hosts.length} nodes in the cluster: ${client.hosts.keys().join(', ')}`;
+  let result = `Connected to ${connection.hosts.length} nodes in the cluster: ${connection.hosts.keys().join(', ')}`;
   return result;
 }
 
 async function getData() {
-  await client.connect();
-  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
+  const result = await connection.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
 
   const row = result.first();
   console.log(row['customer_name']);
@@ -67,10 +70,17 @@ async function getData() {
   return row;
 }
 
+async function getClusterName() {
+  const result = await connection.execute('select cluster_name from system.local');
+
+  const row = result.first();
+
+  return row;
+}
+
 async function getMoreData(){
-  await client.connect();
   const query = 'SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders';
-  client.execute(query, [name], { prepare: true })
+  connection.execute(query, [name], { prepare: true })
       .then(function (result) {
         result.rows.forEach(function (row) {
           console.log('%s to %s: %s', row.currencies.get(0), row.currencies.get(1), row.value);
@@ -80,8 +90,7 @@ async function getMoreData(){
 }
 
 async function getMetadata() {
-  await client.connect();
-  const rs = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders WHERE customer_name= ? ;', ['Rachel Pollard']);
+  const rs = await connection.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders WHERE customer_name= ? ;', ['Rachel Pollard']);
   return rs.first()['prod_name'];
 }
 
