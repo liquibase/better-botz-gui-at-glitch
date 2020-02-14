@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const path = './.data/secure-connect.zip';
 const { Client } = require('cassandra-driver');
 const client = new Client({
@@ -16,45 +15,45 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Better Botz Nous, Welcome' + process.env.USERNAME });
 });
 
+router.get('/datareport', function (req, res) {
+  getMoreData().then(function(data){
+    res.render('datareport', { data } );
+  }).catch(function(filteredData){
+    res.send(filteredData);
+  })
+});
+
 router.get('/data', function (req, res) {
-  getData().then(function(data){
+  getMoreData().then(function(data){
     res.send(data);
   }).catch(function(filteredData){
     res.send(filteredData);
   })
 });
 
-router.get('/metadata', function(req, res){
-  getMetadata().then(function (data) {
-    res.send(data);
-  }).catch(function (filteredData) {
-    res.send(filteredData);
-  })
-});
+
+
+async function getClusterDetails() {
+  let result = `Connected to ${client.hosts.length} nodes in the cluster: ${client.hosts.keys().join(', ')}`;
+  return result;
+}
 
 async function getData() {
-  await client.connect();
-  const rs = await client.execute('SELECT * FROM system.local');
-  await client.shutdown();
-  return rs.first()['cluster_name'];
+  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
+  const row = result.first();
+  console.log(row['customer_name']);
+  return row;
 }
 
-async function getSampleRows() {
-
+async function getClusterName() {
+  const result = await client.execute('select cluster_name from system.local');
+  const row = result.first();
+  return row;
 }
 
-async function getMetadata() {
-  var result = "";
-  client.metadata.getTable('system', 'local')
-      .then(function (tableInfo) {
-        result += 'Table ' + tableInfo.name;
-        tableInfo.columns.forEach(function (column) {
-          result += 'Column ' + column.name + ' with type ' + column.type;
-        });
-      }).catch(function (filteredData) {
-      result = filteredData;
-  });
-  return "Data: " + result;
+async function getMoreData(){
+  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
+  return result.rows;
 }
 
 module.exports = router;
