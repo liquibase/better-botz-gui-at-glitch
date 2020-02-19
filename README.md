@@ -10,7 +10,7 @@ First set your secure bundle in the path as shown in the app.js file in the foll
 const path = './.data/secure-connect.zip';
 ```
 
-Then to pass the username and password that are necessary, either setup a `.env` file, or setup your environment variables with a USERNAME and PASSWORD variables, or pass them in as shown in the command below.
+Run the server as shown:
 
 ``` bash
 USERNAME=usernameToYourApolloDb PASSWORD=passwordToYourApolloDb bash -c 'node bin/www'
