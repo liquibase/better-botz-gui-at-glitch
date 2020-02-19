@@ -31,26 +31,6 @@ router.get('/data', function (req, res) {
   })
 });
 
-
-
-async function getClusterDetails() {
-  let result = `Connected to ${client.hosts.length} nodes in the cluster: ${client.hosts.keys().join(', ')}`;
-  return result;
-}
-
-async function getData() {
-  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
-  const row = result.first();
-  console.log(row['customer_name']);
-  return row;
-}
-
-async function getClusterName() {
-  const result = await client.execute('select cluster_name from system.local');
-  const row = result.first();
-  return row;
-}
-
 async function getMoreData(){
   const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
   return result.rows;
