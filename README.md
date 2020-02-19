@@ -17,3 +17,9 @@ USERNAME=usernameToYourApolloDb PASSWORD=passwordToYourApolloDb bash -c 'node bi
 ```
 
 As shown in the command above, once variables and such are set, just execute the app.js with `node bin/www`.
+
+Once running, check out the following paths for examples of data retrieval:
+
+http://localhost:3000/datareport >> this is a response via generated jade template w/ the data results.
+http://localhost:3000/data >> this is a direct data response of just the JSON response via API get call.
+http://localhost:3000/ >> verifies express.js is running with Jade templates!
