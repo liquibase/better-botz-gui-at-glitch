@@ -13,7 +13,7 @@ const path = './.data/secure-connect.zip';
 Run the server as shown:
 
 ``` bash
-USERNAME=usernameToYourApolloDb PASSWORD=passwordToYourApolloDb bash -c 'node bin/www'
+USERNAME=databaseUsername PASSWORD=databasePassword bash -c 'node bin/www'
 ```
 
 As shown in the command above, once variables and such are set, just execute the app.js with `node bin/www`.
