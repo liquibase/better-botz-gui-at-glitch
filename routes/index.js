@@ -12,7 +12,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Better Botz Nous, Welcome' + process.env.USERNAME });
+  res.render('index', { title: 'Better Botz' });
 });
 
 router.get('/datareport', function (req, res) {
