@@ -4,7 +4,7 @@ const path = './.data/secure-connect.zip';
 const { Client } = require('cassandra-driver');
 const client = new Client({
   cloud: { secureConnectBundle: path },
-  credentials: { username: process.env.USER, password: process.env.PASSWORD }
+  credentials: { username: process.env.ASTRAUSER, password: process.env.ASTRAPASSWORD }
 });
 
 var express = require('express');
