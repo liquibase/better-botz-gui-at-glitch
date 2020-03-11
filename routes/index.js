@@ -4,7 +4,7 @@ const path = './.data/secure-connect.zip';
 const { Client } = require('cassandra-driver');
 const client = new Client({
   cloud: { secureConnectBundle: path },
-  credentials: { username: process.env.USERNAME, password: process.env.PASSWORD }
+  credentials: { username: process.env.USER, password: process.env.PASSWORD }
 });
 
 var express = require('express');
@@ -32,7 +32,7 @@ router.get('/data', function (req, res) {
 });
 
 async function getMoreData(){
-  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM bb.orders');
+  const result = await client.execute('SELECT customer_name, address, description, price, prod_id, prod_name, sell_price FROM betterbotz.orders');
   return result.rows;
 }
 
