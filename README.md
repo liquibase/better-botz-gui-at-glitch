@@ -15,7 +15,7 @@ Next, run `npm install` in the root directory of the project to retrieve all fo 
 Now run the server as shown:
 
 ``` bash
-USERNAME=usernameToYourApolloDb PASSWORD=passwordToYourApolloDb bash -c 'node bin/www'
+USERNAME=databaseUsername PASSWORD=databasePassword bash -c 'node bin/www'
 ```
 
 Once running, check out the following paths for examples of data retrieval:
