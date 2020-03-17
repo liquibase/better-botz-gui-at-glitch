@@ -5,32 +5,3 @@ html
 
   body
     block content
-
-doctype html
-html(lang='en')
-  head
-    title= title
-    meta(name='description', content='A cool thing made with Glitch')
-    link#favicon(rel='icon', href='https://glitch.com/edit/favicon-app.ico', type='image/x-icon')
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='/client.js', defer='')
-  body
-    header
-      h1= title
-
-    main
-      p
-        | Welcome to the #{title} site to help you build what you need for your Better Botz workforce!
-
-    footer
-      | Powered by&nbsp;
-      a(href='https://glitch.com') DataStax Astra
-      | !
-      | Lots of HTML turned into Jade with&nbsp;
-      a(href='https://html2jade.org/') html2jade
-      | . Built by all the robots at&nbsp;
-      a(href='https://twitter.com/betterbotz/') Better Botz
-      | !
